@@ -3,7 +3,9 @@ using ExchangeRates.Application.Interface;
 using ExchangeRates.Application.Models;
 using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
-using Microsoft.Playwright;
+using OpenQA.Selenium.Chrome;
+using WebDriverManager;
+using WebDriverManager.DriverConfigs.Impl;
 
 namespace ExchangeRates.Application.Services.Banks;
 
@@ -16,23 +18,22 @@ public class TeraBank : BankAbstract, IWebsiteParser
         _logger = logger;
     }
 
-    public async Task<ExchangeRate> GetExchangeRateAsync()
+    public Task<ExchangeRate> GetExchangeRateAsync()
     {
-        return await RetryService.Execute(ProcessAsync, BankNamesConst.TeraBank, _logger);
+        return RetryService.ExecuteAsync(ProcessAsyncAsync, BankNamesConst.TeraBank, _logger);
     }
 
-    protected override async Task<ExchangeRate> ProcessAsync(string bankName)
+    protected override async Task<ExchangeRate> ProcessAsyncAsync(string bankName)
     {
-        //single page app
-        //bin/Debug/net7.0/playwright.ps1 install in powershell
-        var data = new ExchangeRate(BankNamesConst.TeraBank);
-        using var playwright = await Playwright.CreateAsync();
-        await using var browser = await playwright.Chromium.LaunchAsync(new() { Headless = true });
-        var page = await browser.NewPageAsync();
         const string url = "https://www.terabank.ge/ge/retail";
-        await page.GotoAsync(url);
+        var data = new ExchangeRate(BankNamesConst.TeraBank);
+        new DriverManager().SetUpDriver(new ChromeConfig());
+        var chromeOptions = new ChromeOptions();
+        chromeOptions.AddArguments("headless");
+        using var driver = new ChromeDriver(chromeOptions);
+        driver.Navigate().GoToUrl(url);
         HtmlDocument htmlDoc = new();
-        htmlDoc.LoadHtml(await page.ContentAsync());
+        htmlDoc.LoadHtml(driver.PageSource);
         var currencies = htmlDoc.DocumentNode.SelectNodes("//table//tbody//span");
         for (var i = 0; i < currencies.Count / 3; i++)
         {

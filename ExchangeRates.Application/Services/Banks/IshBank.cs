@@ -17,10 +17,10 @@ public class IshBank : BankAbstract, IWebsiteParser
 
     public Task<ExchangeRate> GetExchangeRateAsync()
     {
-        return RetryService.Execute(ProcessAsync, BankNamesConst.IshBank, _logger);
+        return RetryService.ExecuteAsync(ProcessAsyncAsync, BankNamesConst.IshBank, _logger);
     }
 
-    protected override async Task<ExchangeRate> ProcessAsync(string bankName)
+    protected override async Task<ExchangeRate> ProcessAsyncAsync(string bankName)
     {
         var data = new ExchangeRate(bankName);
         const string html = "http://isbank.ge/ka/business#";

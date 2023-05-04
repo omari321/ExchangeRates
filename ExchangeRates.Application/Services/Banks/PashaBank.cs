@@ -18,10 +18,10 @@ public class PashaBank : BankAbstract, IWebsiteParser
 
     public Task<ExchangeRate> GetExchangeRateAsync()
     {
-        return RetryService.Execute(ProcessAsync, BankNamesConst.PashaBank, _logger);
+        return RetryService.ExecuteAsync(ProcessAsyncAsync, BankNamesConst.PashaBank, _logger);
     }
 
-    protected override async Task<ExchangeRate> ProcessAsync(string bankName)
+    protected override async Task<ExchangeRate> ProcessAsyncAsync(string bankName)
     {
         var data = new ExchangeRate(bankName);
         const string html = "https://www.pashabank.ge/ge/exchange-rates";

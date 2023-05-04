@@ -3,9 +3,7 @@ using ExchangeRates.Application.Interface;
 using ExchangeRates.Application.Models;
 using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
-using Microsoft.Playwright;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 
@@ -20,25 +18,23 @@ public class CartuBank : BankAbstract, IWebsiteParser
         _logger = logger;
     }
 
-    public async Task<ExchangeRate> GetExchangeRateAsync()
+    public Task<ExchangeRate> GetExchangeRateAsync()
     {
-        return await RetryService.Execute(ProcessAsync, BankNamesConst.CartuBank, _logger);
+        return RetryService.ExecuteAsync(ProcessAsyncAsync, BankNamesConst.CartuBank, _logger);
     }
 
-    protected override async Task<ExchangeRate> ProcessAsync(string bankName)
+    protected override Task<ExchangeRate> ProcessAsyncAsync(string bankName)
     {
         const string url = "https://www.cartubank.ge/";
         new DriverManager().SetUpDriver(new ChromeConfig());
         var chromeOptions = new ChromeOptions();
         chromeOptions.AddArguments("headless");
-        var driver = new ChromeDriver(chromeOptions);
+        using var driver = new ChromeDriver(chromeOptions);
+
         var data = new ExchangeRate(bankName);
-        //using var playwright = await Playwright.CreateAsync();
-        //await using var browser = await playwright.Chromium.LaunchAsync(new() { Headless = true });
-        //var page = await browser.NewPageAsync();
-        //await page.GotoAsync(url);
+        driver.Navigate().GoToUrl(url);
         HtmlDocument htmlDoc = new();
-        htmlDoc.LoadHtml(await page.ContentAsync());
+        htmlDoc.LoadHtml(driver.PageSource);
         var currenciesName = htmlDoc.DocumentNode.SelectNodes("//th[contains (@class,'name')]");
         var currenciesBuy = htmlDoc.DocumentNode.SelectNodes("//td[contains (@class,'buy')]");
         var currenciesSell = htmlDoc.DocumentNode.SelectNodes("//td[contains (@class,'sell')]");
@@ -59,6 +55,6 @@ public class CartuBank : BankAbstract, IWebsiteParser
                 _logger.LogError(e.Message);
             }
         }
-        return data;
+        return Task.FromResult(data);
     }
 }

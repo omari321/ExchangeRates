@@ -17,10 +17,10 @@ internal class ProcreditBank : BankAbstract, IWebsiteParser
 
     public Task<ExchangeRate> GetExchangeRateAsync()
     {
-        return RetryService.Execute(ProcessAsync, BankNamesConst.ProcreditBank, _logger);
+        return RetryService.ExecuteAsync(ProcessAsyncAsync, BankNamesConst.ProcreditBank, _logger);
     }
 
-    protected override async Task<ExchangeRate> ProcessAsync(string bankName)
+    protected override async Task<ExchangeRate> ProcessAsyncAsync(string bankName)
     {
         var data = new ExchangeRate(bankName);
         const string html = "https://procreditbank.ge/ge/exchange";

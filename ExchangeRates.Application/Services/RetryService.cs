@@ -5,7 +5,7 @@ namespace ExchangeRates.Application.Services;
 
 public static class RetryService
 {
-    public static async Task<ExchangeRate> Execute(Func<string, Task<ExchangeRate>> func, string bankName, ILogger logger, int numberOfRetries = 3)
+    public static async Task<ExchangeRate> ExecuteAsync(Func<string, Task<ExchangeRate>> func, string bankName, ILogger logger, int numberOfRetries = 3)
     {
         var tries = 0;
 
@@ -15,7 +15,7 @@ public static class RetryService
             try
             {
                 var data = await func(bankName);
-                if (data.ExchangeRates is { Count: > 0 })
+                if (data.ExchangeRates is not { Count: > 0 })
                 {
                     logger.LogError("failed to parse  {0} data , error in logic", bankName);
                 }

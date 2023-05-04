@@ -15,12 +15,12 @@ public class CredoBank : BankAbstract, IWebsiteParser
         _logger = logger;
     }
 
-    public async Task<ExchangeRate> GetExchangeRateAsync()
+    public Task<ExchangeRate> GetExchangeRateAsync()
     {
-        return await RetryService.Execute(ProcessAsync, BankNamesConst.CredoBank, _logger);
+        return RetryService.ExecuteAsync(ProcessAsyncAsync, BankNamesConst.CredoBank, _logger);
     }
 
-    protected override async Task<ExchangeRate> ProcessAsync(string bankName)
+    protected override async Task<ExchangeRate> ProcessAsyncAsync(string bankName)
     {
         var data = new ExchangeRate(bankName);
         const string html = "https://credobank.ge/exchange-rates/?rate=credo";

@@ -42,8 +42,8 @@ public class ExchangeRateParser : BackgroundService
             Console.WriteLine(item.Bank);
             item.ExchangeRates.ForEach(x =>
             {
-                Console.WriteLine("    " + x.BuyRate);
                 Console.WriteLine("    " + x.CurrencyName);
+                Console.WriteLine("    " + x.BuyRate);
                 Console.WriteLine("    " + x.SellRate);
             });
         }

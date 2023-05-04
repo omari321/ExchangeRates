@@ -17,10 +17,10 @@ public class HalykBank : BankAbstract, IWebsiteParser
 
     public Task<ExchangeRate> GetExchangeRateAsync()
     {
-        return RetryService.Execute(ProcessAsync, BankNamesConst.HalykBank, _logger);
+        return RetryService.ExecuteAsync(ProcessAsyncAsync, BankNamesConst.HalykBank, _logger);
     }
 
-    protected override async Task<ExchangeRate> ProcessAsync(string bankName)
+    protected override async Task<ExchangeRate> ProcessAsyncAsync(string bankName)
     {
         var data = new ExchangeRate(bankName);
         const string html = "https://halykbank.ge/ka/individuals";
