@@ -1,7 +1,7 @@
 ﻿using ExchangeRates.Application.Interface;
 using ExchangeRates.Domain.Entities;
+using ExchangeRates.Infrastructure;
 using ExchangeRates.Infrastructure.Repositories.Abstractions;
-using ExchangeRates.Infrastructure.UnitOfWork.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

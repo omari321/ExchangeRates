@@ -6,19 +6,32 @@ namespace ExchangeRates.Shared;
 
 public static class DIExtension
 {
+    //public static IHostBuilder AddSettingsConfiguration(this IHostBuilder builder)
+    //{
+    //    builder.ConfigureAppConfiguration(config =>
+    //    {
+    //        config.AddEnvironmentVariables();
+    //    });
+
+    //    builder.ConfigureServices((hostContext, sc) =>
+    //    {
+    //        sc.Configure<EnvironmentSettings>(hostContext.Configuration.GetSection(EnvironmentSettings.SectionName));
+
+    //        sc.AddSingleton<EnvironmentSettings>();
+    //        var settings = sc.BuildServiceProvider().GetRequiredService<EnvironmentSettings>();
+    //    });
+
+    //    return builder;
+    //}
     public static IHostBuilder AddSettingsConfiguration(this IHostBuilder builder)
     {
-        builder.ConfigureAppConfiguration(config =>
-        {
-            config.AddEnvironmentVariables();
-        });
+        builder.ConfigureAppConfiguration(configuration => { configuration.AddEnvironmentVariables(); });
 
         builder.ConfigureServices((hostContext, sc) =>
         {
-            sc.Configure<EnvironmentSettings>(hostContext.Configuration.GetSection(EnvironmentSettings.SectionName));
-
+            sc.Configure<EnvironmentSettings>(hostContext.Configuration
+                .GetSection(EnvironmentSettings.SectionName));
             sc.AddSingleton<EnvironmentSettings>();
-            var settings = sc.BuildServiceProvider().GetRequiredService<EnvironmentSettings>();
         });
 
         return builder;

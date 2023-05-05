@@ -1,7 +1,6 @@
 ﻿using ExchangeRates.Infrastructure.Persistence;
-using ExchangeRates.Infrastructure.UnitOfWork.Abstractions;
 
-namespace ExchangeRates.Infrastructure.UnitOfWork;
+namespace ExchangeRates.Infrastructure;
 
 public class UnitOfWork : IUnitOfWork
 {

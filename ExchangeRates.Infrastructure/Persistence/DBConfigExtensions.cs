@@ -1,23 +1,24 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace ExchangeRates.Infrastructure.Persistence;
 
 public static class DBConfigExtensions
 {
-    public static async Task<IApplicationBuilder> InitializeDatabase(this IApplicationBuilder builder)
+    public static IHost InitializeDatabase(this IHost builder)
     {
-        using var scope = builder.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+        using var scope = builder.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<BankExchangeRateDBContext>>();
 
-        await using var ctx = scope.ServiceProvider.GetRequiredService<BankExchangeRateDBContext>();
+        using var ctx = scope.ServiceProvider.GetRequiredService<BankExchangeRateDBContext>();
 
-        var pendingMigrations = await ctx.Database.GetPendingMigrationsAsync();
+        var pendingMigrations = ctx.Database.GetPendingMigrationsAsync().GetAwaiter().GetResult();
         if (pendingMigrations.Any())
         {
-            await ctx.Database.MigrateAsync();
+            ctx.Database.MigrateAsync().GetAwaiter().GetResult();
         }
 
         return builder;
