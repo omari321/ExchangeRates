@@ -2,12 +2,12 @@
 
 public class EnvironmentSettings
 {
-    public const string SectionName = "DbConnection";
+    public const string SectionName = "EnvironmentSettings";
     public string DbConnection { get; set; }
 
-    public EnvironmentSettings(string dbConnection)
+    public EnvironmentSettings()
     {
-        DbConnection = dbConnection;
+        Validate();
     }
 
     private void Validate()

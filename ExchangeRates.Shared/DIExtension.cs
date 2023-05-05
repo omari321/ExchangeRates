@@ -16,7 +16,9 @@ public static class DIExtension
         builder.ConfigureServices((hostContext, sc) =>
         {
             sc.Configure<EnvironmentSettings>(hostContext.Configuration.GetSection(EnvironmentSettings.SectionName));
+
             sc.AddSingleton<EnvironmentSettings>();
+            var settings = sc.BuildServiceProvider().GetRequiredService<EnvironmentSettings>();
         });
 
         return builder;

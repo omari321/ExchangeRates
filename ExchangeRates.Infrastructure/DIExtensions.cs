@@ -5,28 +5,27 @@ using ExchangeRates.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ExchangeRates.Infrastructure
+namespace ExchangeRates.Infrastructure;
+
+public static class DIExtensions
 {
-    public static class DIExtensions
+    public static IServiceCollection AddDbContext(this IServiceCollection services)
     {
-        public static IServiceCollection AddDbContext(this IServiceCollection services)
+        services.AddDbContext<DbContext>((sp, options) =>
         {
-            services.AddDbContext<DbContext>((sp, options) =>
-            {
-                var appSettings = sp.GetRequiredService<EnvironmentSettings>();
+            var appSettings = sp.GetRequiredService<EnvironmentSettings>();
 
-                options.UseNpgsql(appSettings.DbConnection);
-            });
+            options.UseNpgsql(appSettings.DbConnection);
+        });
 
-            return services;
-        }
+        return services;
+    }
 
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
-        {
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-            services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    {
+        services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+        services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
 
-            return services;
-        }
+        return services;
     }
 }

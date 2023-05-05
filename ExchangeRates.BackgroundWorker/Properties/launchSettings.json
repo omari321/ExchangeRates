@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "ExchangeRates.BackgroundWorker": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "EnvironmentSettings__DbConnection": "User ID=sa;Password=postgreS@pass1;Host=localhost;Port=5432;Database=BankExchangeRates;Pooling=true;"
+      }
+    }
+  }
+}
