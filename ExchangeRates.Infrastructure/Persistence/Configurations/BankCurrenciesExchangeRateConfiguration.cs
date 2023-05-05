@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ExchangeRates.Infrastructure.Persistence.Configurations;
 
-public class CompanyConfiguration : EntityConfiguration<BankCurrenciesExchangeRates>
+public class BankCurrenciesExchangeRateConfiguration : EntityConfiguration<BankCurrenciesExchangeRates>
 {
     public override void Map(EntityTypeBuilder<BankCurrenciesExchangeRates> builder)
     {
