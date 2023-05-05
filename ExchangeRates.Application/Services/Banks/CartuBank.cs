@@ -9,7 +9,7 @@ using WebDriverManager.DriverConfigs.Impl;
 
 namespace ExchangeRates.Application.Services.Banks;
 
-public class CartuBank : BankAbstract, IWebsiteParser
+public class CartuBank : BankAbstract, IBankParser
 {
     private readonly ILogger<CartuBank> _logger;
 

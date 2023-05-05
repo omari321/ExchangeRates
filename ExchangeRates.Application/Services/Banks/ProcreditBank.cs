@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ExchangeRates.Application.Services.Banks;
 
-internal class ProcreditBank : BankAbstract, IWebsiteParser
+internal class ProcreditBank : BankAbstract, IBankParser
 {
     private readonly ILogger<ProcreditBank> _logger;
 

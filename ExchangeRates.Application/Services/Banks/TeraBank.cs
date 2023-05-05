@@ -9,7 +9,7 @@ using WebDriverManager.DriverConfigs.Impl;
 
 namespace ExchangeRates.Application.Services.Banks;
 
-public class TeraBank : BankAbstract, IWebsiteParser
+public class TeraBank : BankAbstract, IBankParser
 {
     private readonly ILogger<TeraBank> _logger;
 
@@ -23,7 +23,7 @@ public class TeraBank : BankAbstract, IWebsiteParser
         return RetryService.ExecuteAsync(ProcessAsyncAsync, BankNamesConst.TeraBank, _logger);
     }
 
-    protected override async Task<ExchangeRate> ProcessAsyncAsync(string bankName)
+    protected override Task<ExchangeRate> ProcessAsyncAsync(string bankName)
     {
         const string url = "https://www.terabank.ge/ge/retail";
         var data = new ExchangeRate(BankNamesConst.TeraBank);
@@ -51,6 +51,6 @@ public class TeraBank : BankAbstract, IWebsiteParser
                 _logger.LogError(e.Message);
             }
         }
-        return data;
+        return Task.FromResult(data);
     }
 }

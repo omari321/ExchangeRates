@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace ExchangeRates.Application.Services.Banks;
 
-public class BankOfGeorgia : BankAbstract, IWebsiteParser
+public class BankOfGeorgia : BankAbstract, IBankParser
 {
     private readonly ILogger<BankOfGeorgia> _logger;
 

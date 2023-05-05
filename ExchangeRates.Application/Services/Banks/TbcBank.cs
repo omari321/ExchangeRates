@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ExchangeRates.Application.Services.Banks;
 
-public class TbcBank : BankAbstract, IWebsiteParser
+public class TbcBank : BankAbstract, IBankParser
 {
     private readonly ILogger<TbcBank> _logger;
 

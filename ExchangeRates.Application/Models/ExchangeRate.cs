@@ -1,4 +1,4 @@
-﻿namespace ExchangeRates.Application.Interface;
+﻿namespace ExchangeRates.Application.Models;
 
 public class ExchangeRate
 {
@@ -10,11 +10,4 @@ public class ExchangeRate
         Bank = bank;
         ExchangeRates = new List<ExchangeRateInformation?>();
     }
-}
-
-public record ExchangeRateInformation(string CurrencyName, decimal BuyRate, decimal SellRate);
-
-public interface IWebsiteParser
-{
-    Task<ExchangeRate> GetExchangeRateAsync();
 }

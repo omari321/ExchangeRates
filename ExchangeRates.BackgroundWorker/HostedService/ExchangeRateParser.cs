@@ -34,15 +34,17 @@ public class ExchangeRateParser : BackgroundService
     private async Task StartWebsiteParsingAsync()
     {
         using var scope = _serviceProvider.CreateScope();
-        var webParsers = scope.ServiceProvider.GetRequiredService<IEnumerable<IWebsiteParser>>();
-        var data = await Task.WhenAll(
-            webParsers.Select(async (x) => await x.GetExchangeRateAsync()));
-        foreach (var item in data)
+        var nbgParser = scope.ServiceProvider.GetRequiredService<INbgParser>();
+        var bankParsers = scope.ServiceProvider.GetRequiredService<IEnumerable<IBankParser>>();
+        var bankData = await Task.WhenAll(
+            bankParsers.Select(async (x) => await x.GetExchangeRateAsync()));
+        var nbgData = await nbgParser.GetOfficialExchangeRateAsync();
+        foreach (var item in bankData)
         {
             Console.WriteLine(item.Bank);
             item.ExchangeRates.ForEach(x =>
             {
-                Console.WriteLine("    " + x.CurrencyName);
+                Console.WriteLine(" " + x!.CurrencyName);
                 Console.WriteLine("    " + x.BuyRate);
                 Console.WriteLine("    " + x.SellRate);
             });

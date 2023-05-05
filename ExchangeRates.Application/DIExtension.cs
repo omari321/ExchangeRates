@@ -1,4 +1,5 @@
 ﻿using ExchangeRates.Application.Interface;
+using ExchangeRates.Application.Services;
 using ExchangeRates.Application.Services.Banks;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,18 +9,18 @@ public static class DIExtension
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddSingleton<IWebsiteParser, TeraBank>();
-        services.AddSingleton<IWebsiteParser, TbcBank>();
-        services.AddSingleton<IWebsiteParser, SilkBank>();
-        services.AddSingleton<IWebsiteParser, ProcreditBank>();
-        services.AddSingleton<IWebsiteParser, PashaBank>();
-        services.AddSingleton<IWebsiteParser, LibertyBank>();
-        services.AddSingleton<IWebsiteParser, IshBank>();
-        services.AddSingleton<IWebsiteParser, HalykBank>();
-        services.AddSingleton<IWebsiteParser, CredoBank>();
-        services.AddSingleton<IWebsiteParser, CartuBank>();
-        services.AddSingleton<IWebsiteParser, BankOfGeorgia>();
-
+        services.AddSingleton<IBankParser, TeraBank>();
+        services.AddSingleton<IBankParser, TbcBank>();
+        services.AddSingleton<IBankParser, SilkBank>();
+        services.AddSingleton<IBankParser, ProcreditBank>();
+        services.AddSingleton<IBankParser, PashaBank>();
+        services.AddSingleton<IBankParser, LibertyBank>();
+        services.AddSingleton<IBankParser, IshBank>();
+        services.AddSingleton<IBankParser, HalykBank>();
+        services.AddSingleton<IBankParser, CredoBank>();
+        services.AddSingleton<IBankParser, CartuBank>();
+        services.AddSingleton<IBankParser, BankOfGeorgia>();
+        services.AddSingleton<INbgParser, NationalBank>();
         return services;
     }
 }

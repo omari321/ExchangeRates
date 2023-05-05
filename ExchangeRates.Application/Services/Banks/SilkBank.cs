@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ExchangeRates.Application.Services.Banks;
 
-public class SilkBank : BankAbstract, IWebsiteParser
+public class SilkBank : BankAbstract, IBankParser
 {
     private readonly ILogger<SilkBank> _logger;
 

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ExchangeRates.Application.Services.Banks;
 
-public class CredoBank : BankAbstract, IWebsiteParser
+public class CredoBank : BankAbstract, IBankParser
 {
     private readonly ILogger<CredoBank> _logger;
 

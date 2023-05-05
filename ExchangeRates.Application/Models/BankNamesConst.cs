@@ -1,6 +1,6 @@
 ﻿namespace ExchangeRates.Application.Models;
 
-public class BankNamesConst
+public static class BankNamesConst
 {
     public const string TbcBank = "Tbc Bank";
     public const string TeraBank = "Tera Bank";
@@ -13,4 +13,5 @@ public class BankNamesConst
     public const string CredoBank = "Credo Bank";
     public const string CartuBank = "Cartu Bank";
     public const string BankOfGeorgia = "Bank Of Georgia";
+    public const string NationalBank = "National Bank Of Georgia";
 }

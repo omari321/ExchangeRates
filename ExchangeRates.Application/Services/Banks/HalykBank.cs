@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ExchangeRates.Application.Services.Banks;
 
-public class HalykBank : BankAbstract, IWebsiteParser
+public class HalykBank : BankAbstract, IBankParser
 {
     private readonly ILogger<HalykBank> _logger;
 

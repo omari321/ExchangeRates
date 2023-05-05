@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ExchangeRates.Application.Services.Banks;
 
-public class LibertyBank : BankAbstract, IWebsiteParser
+public class LibertyBank : BankAbstract, IBankParser
 {
     private readonly ILogger<LibertyBank> _logger;
 
@@ -33,21 +33,21 @@ public class LibertyBank : BankAbstract, IWebsiteParser
         foreach (var (t, index) in elements.Select((item, index) => (item, index)))
         {
             var items = regex.Split(t.InnerText.Trim());
-            decimal? buy = null;
-            decimal? sell = null;
 
             try
             {
+                var buy = decimal.Parse(items[7].Trim());
+                var sell = decimal.Parse(items[8].Trim());
                 if (items[0] == "RUR")
                 {
-                    buy = decimal.Parse(items[7].Trim()) / 100;
-                    sell = decimal.Parse(items[8].Trim()) / 100;
+                    buy /= 100;
+                    sell /= 100;
                 }
                 data.ExchangeRates.Add(
                     new ExchangeRateInformation(
                         items[0],
-                        buy!.Value,
-                        sell!.Value));
+                        buy,
+                        sell));
             }
             catch (Exception e)
             {
