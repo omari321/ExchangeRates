@@ -8,21 +8,21 @@ namespace ExchangeRates.Infrastructure.Repositories
     public class EfRepository<T> : IRepository<T>
         where T : Entity
     {
-        private DBContext _db;
+        private BankExchangeRateDBContext _bankExchangeRateDb;
 
-        public EfRepository(DBContext db)
+        public EfRepository(BankExchangeRateDBContext bankExchangeRateDb)
         {
-            _db = db;
+            _bankExchangeRateDb = bankExchangeRateDb;
         }
 
         public IQueryable<T> Query(Expression<Func<T, bool>>? expression = null)
         {
-            return _db.Set<T>().AsQueryable();
+            return _bankExchangeRateDb.Set<T>().AsQueryable();
         }
 
         public virtual async Task Store(T document)
         {
-            await _db.Set<T>().AddAsync(document);
+            await _bankExchangeRateDb.Set<T>().AddAsync(document);
         }
     }
 }

@@ -8,6 +8,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
+//todo rate limiting
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

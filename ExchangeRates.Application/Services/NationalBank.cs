@@ -47,6 +47,7 @@ public class NationalBank : INbgParser
         catch (Exception e)
         {
             _logger.LogError("failed to parse data");
+            _logger.LogError(e.Message);
         }
 
         return data;

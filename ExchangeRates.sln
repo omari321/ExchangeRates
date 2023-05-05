@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRates.API", "Exchan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRates.BackgroundWorker", "ExchangeRates.BackgroundWorker\ExchangeRates.BackgroundWorker.csproj", "{FB4EF773-35DD-4724-A0CA-8CB9264AA204}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRates.Migrator", "ExchangeRates.Migrator\ExchangeRates.Migrator.csproj", "{EB77BA8C-F6C5-4358-A2FD-E4BD7BA7BDCC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRates.Application", "ExchangeRates.Application\ExchangeRates.Application.csproj", "{8DE4AC2A-BA8A-4A0E-ACD9-3DDF16497D9E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRates.Domain", "ExchangeRates.Domain\ExchangeRates.Domain.csproj", "{5CEE12B5-F0A7-4E2B-B3AD-7D5517B45039}"
@@ -31,10 +29,6 @@ Global
 		{FB4EF773-35DD-4724-A0CA-8CB9264AA204}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB4EF773-35DD-4724-A0CA-8CB9264AA204}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB4EF773-35DD-4724-A0CA-8CB9264AA204}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB77BA8C-F6C5-4358-A2FD-E4BD7BA7BDCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB77BA8C-F6C5-4358-A2FD-E4BD7BA7BDCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB77BA8C-F6C5-4358-A2FD-E4BD7BA7BDCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB77BA8C-F6C5-4358-A2FD-E4BD7BA7BDCC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8DE4AC2A-BA8A-4A0E-ACD9-3DDF16497D9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8DE4AC2A-BA8A-4A0E-ACD9-3DDF16497D9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DE4AC2A-BA8A-4A0E-ACD9-3DDF16497D9E}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -5,15 +5,15 @@ namespace ExchangeRates.Infrastructure.UnitOfWork;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly DBContext _dbContext;
+    private readonly BankExchangeRateDBContext _bankExchangeRateDbContext;
 
-    public UnitOfWork(DBContext dbContext)
+    public UnitOfWork(BankExchangeRateDBContext bankExchangeRateDbContext)
     {
-        _dbContext = dbContext;
+        _bankExchangeRateDbContext = bankExchangeRateDbContext;
     }
 
     public async Task<int> SaveAsync()
     {
-        return await _dbContext.SaveChangesAsync();
+        return await _bankExchangeRateDbContext.SaveChangesAsync();
     }
 }

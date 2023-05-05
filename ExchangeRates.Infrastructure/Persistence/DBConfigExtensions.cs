@@ -10,9 +10,9 @@ public static class DBConfigExtensions
     public static async Task<IApplicationBuilder> InitializeDatabase(this IApplicationBuilder builder)
     {
         using var scope = builder.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger<DBContext>>();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<BankExchangeRateDBContext>>();
 
-        await using var ctx = scope.ServiceProvider.GetRequiredService<DBContext>();
+        await using var ctx = scope.ServiceProvider.GetRequiredService<BankExchangeRateDBContext>();
 
         var pendingMigrations = await ctx.Database.GetPendingMigrationsAsync();
         if (pendingMigrations.Any())
