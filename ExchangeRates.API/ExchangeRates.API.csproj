@@ -18,4 +18,9 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ExchangeRates.Application\ExchangeRates.Application.csproj" />
+    <ProjectReference Include="..\ExchangeRates.Infrastructure\ExchangeRates.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
