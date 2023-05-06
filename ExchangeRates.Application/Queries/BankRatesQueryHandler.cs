@@ -34,7 +34,7 @@ public class BankRatesQueryHandler : IRequestHandler<BankRatesQuery, BankRatesDt
 
         var bankCurrencyInfoDto = currencyInfo.ExchangeRates
             .Select(rate => new BankCurrencyInformationDto(rate!.BankName, rate.BuyRate, rate.SellRate))
-            //.OrderByDescending(x => x.SellRate)
+            .OrderByDescending(x => x.SellRate)
             .ToList();
         return new BankRatesDto(currencyInfo.CurrencyName, currencyInfo.OfficialRate, currencyInfo.Diff, bankCurrencyInfoDto);
     }
