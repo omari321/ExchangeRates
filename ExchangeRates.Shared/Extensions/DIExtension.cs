@@ -2,27 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace ExchangeRates.Shared;
+namespace ExchangeRates.Shared.Extensions;
 
 public static class DIExtension
 {
-    //public static IHostBuilder AddSettingsConfiguration(this IHostBuilder builder)
-    //{
-    //    builder.ConfigureAppConfiguration(config =>
-    //    {
-    //        config.AddEnvironmentVariables();
-    //    });
-
-    //    builder.ConfigureServices((hostContext, sc) =>
-    //    {
-    //        sc.Configure<EnvironmentSettings>(hostContext.Configuration.GetSection(EnvironmentSettings.SectionName));
-
-    //        sc.AddSingleton<EnvironmentSettings>();
-    //        var settings = sc.BuildServiceProvider().GetRequiredService<EnvironmentSettings>();
-    //    });
-
-    //    return builder;
-    //}
     public static IHostBuilder AddSettingsConfiguration(this IHostBuilder builder)
     {
         builder.ConfigureAppConfiguration(configuration => { configuration.AddEnvironmentVariables(); });

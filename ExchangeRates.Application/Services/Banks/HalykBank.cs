@@ -1,6 +1,8 @@
 ﻿using ExchangeRates.Application.Abstract;
 using ExchangeRates.Application.Interface;
 using ExchangeRates.Application.Models;
+using ExchangeRates.Shared;
+using ExchangeRates.Shared.Extensions;
 using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
 
@@ -35,7 +37,7 @@ public class HalykBank : BankAbstract, IBankParser
             {
                 data.ExchangeRates.Add(
                     new ExchangeRateInformation(
-                        currencyNames[i].InnerText.Trim().ToUpper(),
+                        currencyNames[i].InnerText.Trim().ToUpper().GetBankName(),
                         decimal.Parse(currencies[i * 2].InnerText.Trim()),
                         decimal.Parse(currencies[i * 2 + 1].InnerText.Trim())));
             }

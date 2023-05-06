@@ -7,8 +7,6 @@ namespace ExchangeRates.Domain.Abstractions
         [Key]
         public int Id { get; protected init; }
 
-        public DateTime CreateDate { get; init; } = DateTime.Now;
-
-        public DateOnly Date { get; init; } = DateOnly.FromDateTime(DateTime.Now);
+        public DateTimeOffset CreateDate { get; init; } = DateTimeOffset.Now.ToUniversalTime();
     }
 }

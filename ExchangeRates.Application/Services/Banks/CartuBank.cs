@@ -1,6 +1,8 @@
 ﻿using ExchangeRates.Application.Abstract;
 using ExchangeRates.Application.Interface;
 using ExchangeRates.Application.Models;
+using ExchangeRates.Shared;
+using ExchangeRates.Shared.Extensions;
 using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
 using OpenQA.Selenium.Chrome;
@@ -45,7 +47,7 @@ public class CartuBank : BankAbstract, IBankParser
             {
                 data.ExchangeRates.Add(
                     new ExchangeRateInformation(
-                        currenciesName[i].InnerText.Trim().ToUpper(),
+                        currenciesName[i].InnerText.Trim().ToUpper().GetBankName(),
                         decimal.Parse(currenciesBuy[i].InnerText.Trim()),
                         decimal.Parse(currenciesSell[i].InnerText.Trim())));
             }

@@ -1,6 +1,8 @@
 ﻿using ExchangeRates.Application.Abstract;
 using ExchangeRates.Application.Interface;
 using ExchangeRates.Application.Models;
+using ExchangeRates.Shared;
+using ExchangeRates.Shared.Extensions;
 using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
 using OpenQA.Selenium.Chrome;
@@ -40,7 +42,7 @@ public class TeraBank : BankAbstract, IBankParser
             try
             {
                 data.ExchangeRates.Add(new ExchangeRateInformation(
-                    currencies[i * 3].InnerText.Trim().ToUpper(),
+                    currencies[i * 3].InnerText.Trim().ToUpper().GetBankName(),
                     decimal.Parse(currencies[i * 3 + 1].InnerText.Trim()),
                     decimal.Parse(currencies[i * 3 + 2].InnerText.Trim()))
                 );

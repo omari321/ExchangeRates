@@ -2,6 +2,8 @@
 using ExchangeRates.Application.Abstract;
 using ExchangeRates.Application.Interface;
 using ExchangeRates.Application.Models;
+using ExchangeRates.Shared;
+using ExchangeRates.Shared.Extensions;
 using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
 
@@ -42,7 +44,7 @@ public class PashaBank : BankAbstract, IBankParser
             {
                 data.ExchangeRates.Add(
                     new ExchangeRateInformation(
-                        values[0],
+                        values[0].GetBankName(),
                         decimal.Parse(values[1]),
                         decimal.Parse(values[2])));
             }

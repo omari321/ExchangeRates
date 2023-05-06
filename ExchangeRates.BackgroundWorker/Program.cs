@@ -3,16 +3,17 @@ using ExchangeRates.BackgroundWorker.HostedService;
 using ExchangeRates.Infrastructure;
 using ExchangeRates.Infrastructure.Persistence;
 using ExchangeRates.Shared;
+using ExchangeRates.Shared.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 var builder = Host.CreateDefaultBuilder(args);
 var app = builder
 .AddSettingsConfiguration()
-.ConfigureServices((hostContext, services) =>
+.ConfigureServices((_, services) =>
 {
     services.AddLogging();
-    services.AddApplication();
+    services.AddBankParsers();
     services.AddDbContext();
     services.AddInfrastructure();
     services.AddHostedService<ExchangeRateParser>();
@@ -21,9 +22,6 @@ var app = builder
 app.InitializeDatabase();
 app.Run(); ;
 
-//todo retry logic
-//also fetch current offical as 5 th column
-//add as ienumerable in DI
 //axali mediatorit task when all
 
 //todo repo

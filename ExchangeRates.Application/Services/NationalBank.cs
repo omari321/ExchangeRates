@@ -1,5 +1,7 @@
 ﻿using ExchangeRates.Application.Interface;
 using ExchangeRates.Application.Models;
+using ExchangeRates.Shared;
+using ExchangeRates.Shared.Extensions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -36,12 +38,19 @@ public class NationalBank : INbgParser
                 "CHF",
                 "TRY"
             };
-            foreach (var currencyToFetch in currenciesToFetch.Select(currency =>
-                         items![0].currencies.FirstOrDefault(x => x.code == currency)))
+            foreach (var currencyToFetch in currenciesToFetch)
             {
+                var currency = items![0].currencies.FirstOrDefault(x => x.code.Trim() == currencyToFetch);
+                if (currencyToFetch == "RUB")
+                {
+                    data.Currencies.Add(
+                        new OfficialNbgCurrency(currencyToFetch.GetBankName(),
+                            currency!.rate / 10, currency.diff));
+                    continue;
+                }
                 data.Currencies.Add(
-                    new OfficialNbgCurrency(currencyToFetch!.code == "RUB" ? currencyToFetch.code : "RUR",
-                        currencyToFetch.rate, currencyToFetch.diff));
+                    new OfficialNbgCurrency(currencyToFetch,
+                        currency!.rate, currency.diff));
             }
         }
         catch (Exception e)

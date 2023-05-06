@@ -2,12 +2,13 @@
 using ExchangeRates.Application.Services;
 using ExchangeRates.Application.Services.Banks;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace ExchangeRates.Application;
 
 public static class DIExtension
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceCollection AddBankParsers(this IServiceCollection services)
     {
         services.AddSingleton<IBankParser, TeraBank>();
         services.AddSingleton<IBankParser, TbcBank>();
@@ -21,6 +22,15 @@ public static class DIExtension
         services.AddSingleton<IBankParser, CartuBank>();
         services.AddSingleton<IBankParser, BankOfGeorgia>();
         services.AddSingleton<INbgParser, NationalBank>();
+        return services;
+    }
+
+    public static IServiceCollection AddApplication(this IServiceCollection services)
+    {
+        services.AddMediatR(config =>
+        {
+            config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+        });
         return services;
     }
 }

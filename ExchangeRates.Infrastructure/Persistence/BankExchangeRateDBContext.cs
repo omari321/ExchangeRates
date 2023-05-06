@@ -14,6 +14,7 @@ namespace ExchangeRates.Infrastructure.Persistence
         public BankExchangeRateDBContext(DbContextOptions<BankExchangeRateDBContext> options)
             : base(options)
         {
+            //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
