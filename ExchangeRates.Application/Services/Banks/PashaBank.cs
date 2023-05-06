@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 using ExchangeRates.Application.Abstract;
 using ExchangeRates.Application.Interface;
 using ExchangeRates.Application.Models;
@@ -36,6 +37,8 @@ public class PashaBank : BankAbstract, IBankParser
 
         var nodes = table.SelectNodes("//tbody/tr");
         var regex = new Regex(@"\s+", RegexOptions.Compiled);
+        var numberFormatWithComma = new NumberFormatInfo();
+        numberFormatWithComma.NumberDecimalSeparator = ",";
         foreach (var node in nodes.ToList().GetRange(0, 4))
         {
             var values = regex.Split(node.InnerText.Trim());
@@ -45,8 +48,8 @@ public class PashaBank : BankAbstract, IBankParser
                 data.ExchangeRates.Add(
                     new ExchangeRateInformation(
                         values[0].GetBankName(),
-                        decimal.Parse(values[1]),
-                        decimal.Parse(values[2])));
+                        decimal.Parse(values[1], numberFormatWithComma),
+                        decimal.Parse(values[2], numberFormatWithComma)));
             }
             catch (Exception e)
             {

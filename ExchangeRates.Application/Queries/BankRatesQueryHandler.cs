@@ -22,11 +22,9 @@ public class BankRatesQueryHandler : IRequestHandler<BankRatesQuery, BankRatesDt
 
     public async Task<BankRatesDto> Handle(BankRatesQuery request, CancellationToken cancellationToken)
     {
+        var date = request.Date?.ToUniversalTime().Date ?? DateTime.Now.ToUniversalTime().Date;
         var data = await _repository
-            .Query(x =>
-                      request.Date == null
-                      ||
-                      x.CreateDate.Date == request.Date!.Value.ToUniversalTime().Date)
+            .Query(x => x.CreateDate.Date == date)
             .FirstAsync(cancellationToken: cancellationToken);
 
         var currencyInfo = data.CurrencyRatesInformation

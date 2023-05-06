@@ -1,8 +1,6 @@
 using ExchangeRates.Application;
 using ExchangeRates.Infrastructure;
-using ExchangeRates.Shared;
 using ExchangeRates.Shared.Extensions;
-using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
