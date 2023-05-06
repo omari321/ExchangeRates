@@ -20,7 +20,7 @@ namespace ExchangeRates.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    BankCurrencies = table.Column<List<BankExchangeEntity>>(type: "jsonb", nullable: false),
+                    CurrencyRatesInformation = table.Column<List<ExchangeRateEntity>>(type: "jsonb", nullable: false),
                     CreateDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>

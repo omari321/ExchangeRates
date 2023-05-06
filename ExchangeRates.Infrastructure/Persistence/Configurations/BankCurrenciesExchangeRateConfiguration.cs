@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ExchangeRates.Infrastructure.Persistence.Configurations;
 
-public class BankCurrenciesExchangeRateConfiguration : EntityConfiguration<BankCurrenciesExchangeRates>
+public class BankCurrenciesExchangeRateConfiguration : EntityConfiguration<BankCurrenciesExchangeRatesEntity>
 {
-    public override void Map(EntityTypeBuilder<BankCurrenciesExchangeRates> builder)
+    public override void Map(EntityTypeBuilder<BankCurrenciesExchangeRatesEntity> builder)
     {
         builder.ToTable("BankCurrenciesExchangeRates")
             .HasKey(x => x.Id);
-        builder.Property(x => x.BankCurrencies).HasColumnType("jsonb");
+        builder.Property(x => x.CurrencyRatesInformation).HasColumnType("jsonb");
     }
 }

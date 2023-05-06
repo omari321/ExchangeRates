@@ -39,46 +39,54 @@ public class ExchangeRateParser : BackgroundService
         using var scope = _serviceProvider.CreateScope();
         var nbgParser = scope.ServiceProvider.GetRequiredService<INbgParser>();
         var bankParsers = scope.ServiceProvider.GetRequiredService<IEnumerable<IBankParser>>(); ;
-        var repository = scope.ServiceProvider.GetRequiredService<IRepository<BankCurrenciesExchangeRates>>();
+        var repository = scope.ServiceProvider.GetRequiredService<IRepository<BankCurrenciesExchangeRatesEntity>>();
         var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
         var bankData = await Task.WhenAll(
             bankParsers.Select(async (x) => await x.GetExchangeRateAsync()));
         var nbgData = await nbgParser.GetOfficialExchangeRateAsync();
-        var persistenceData = new BankCurrenciesExchangeRates();
+        var persistenceData = new BankCurrenciesExchangeRatesEntity();
+        var dictionary = new Dictionary<(string Name, decimal OfficialRate, decimal Diff), List<EntityExchangeRateInformation>>();
         foreach (var item in bankData)
         {
-            Console.WriteLine(item.Bank);
             item.ExchangeRates.ForEach(x =>
             {
-                Console.WriteLine(" " + x!.CurrencyName);
-                Console.WriteLine("    " + x.BuyRate);
-                Console.WriteLine("    " + x.SellRate);
-            });
-            var exchangeEntity = new BankExchangeEntity(item.Bank);
-            if (item.ExchangeRates is { Count: > 0 })
-            {
-                exchangeEntity.ExchangeRates = new List<EntityExchangeRateInformation>();
-                item.ExchangeRates.ForEach(x =>
+                var officialData = nbgData.Currencies
+                    .FirstOrDefault(y => y!.Name == x.CurrencyName);
+                var key = (x!.CurrencyName, officialData!.Rate, officialData.Diff);
+                if (dictionary.ContainsKey(key))
                 {
-                    var officialData = nbgData.Currencies
-                        .FirstOrDefault(y => y!.Name == x.CurrencyName);
-                    exchangeEntity.ExchangeRates.Add(
-                        new EntityExchangeRateInformation(
-                                x!.CurrencyName,
-                                x.BuyRate,
-                                x.SellRate,
-                                officialData!.Rate,
-                                officialData.Rate
-                            )
-                        );
-                });
-            }
-
-            persistenceData.BankCurrencies.Add(exchangeEntity);
+                    dictionary[key].Add(new EntityExchangeRateInformation(
+                        item.Bank,
+                        x.BuyRate,
+                        x.SellRate
+                    ));
+                }
+                else
+                {
+                    dictionary.Add(key, new List<EntityExchangeRateInformation>()
+                    {
+                        new(
+                            item.Bank,
+                            x.BuyRate,
+                            x.SellRate
+                        )
+                    });
+                }
+            });
         }
-
+        foreach (var dictionaryKey in dictionary.Keys)
+        {
+            var exchangeRate =
+                new ExchangeRateEntity(dictionaryKey.Diff, dictionaryKey.OfficialRate, dictionaryKey.Name);
+            dictionary[dictionaryKey].ForEach(x =>
+            {
+                exchangeRate.ExchangeRates?.Add(x);
+            });
+            persistenceData.CurrencyRatesInformation.Add(exchangeRate);
+        }
         await repository.Store(persistenceData);
         await unitOfWork.SaveAsync();
+        _logger.LogInformation("Saved Data Successfully");
     }
 }

@@ -22,6 +22,6 @@ namespace ExchangeRates.Infrastructure.Persistence
             modelBuilder.AddConfiguration(new BankCurrenciesExchangeRateConfiguration());
         }
 
-        public DbSet<BankCurrenciesExchangeRates> BankCurrenciesExchangeRates { get; set; }
+        public DbSet<BankCurrenciesExchangeRatesEntity> BankCurrenciesExchangeRates { get; set; }
     }
 }

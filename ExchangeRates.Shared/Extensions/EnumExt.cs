@@ -2,7 +2,7 @@
 
 public static class EnumExt
 {
-    public static string GetBankNamesFromEnum(AvailableCurrencies availableCurrencies)
+    public static string GetCurrencyNameFromEnum(this AvailableCurrencies availableCurrencies)
     {
         return availableCurrencies switch
         {

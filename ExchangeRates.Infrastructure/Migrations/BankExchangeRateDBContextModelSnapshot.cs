@@ -24,7 +24,7 @@ namespace ExchangeRates.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ExchangeRates.Domain.Entities.BankCurrenciesExchangeRates", b =>
+            modelBuilder.Entity("ExchangeRates.Domain.Entities.BankCurrenciesExchangeRatesEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,12 +32,12 @@ namespace ExchangeRates.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<List<BankExchangeEntity>>("BankCurrencies")
-                        .IsRequired()
-                        .HasColumnType("jsonb");
-
                     b.Property<DateTimeOffset>("CreateDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<List<ExchangeRateEntity>>("CurrencyRatesInformation")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
 
                     b.HasKey("Id");
 
