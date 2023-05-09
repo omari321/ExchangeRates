@@ -9,12 +9,11 @@ public static class DIExtension
     public static IHostBuilder AddSettingsConfiguration(this IHostBuilder builder)
     {
         builder.ConfigureAppConfiguration(configuration => { configuration.AddEnvironmentVariables(); });
-
         builder.ConfigureServices((hostContext, sc) =>
         {
             sc.Configure<EnvironmentSettings>(hostContext.Configuration
                 .GetSection(EnvironmentSettings.SectionName));
-            sc.AddSingleton<EnvironmentSettings>();
+            sc.AddSingleton<ApplicationSettingsService<EnvironmentSettings>>();
         });
 
         return builder;

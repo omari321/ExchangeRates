@@ -13,9 +13,9 @@ public static class DIExtensions
     {
         services.AddDbContext<BankExchangeRateDBContext>((sp, options) =>
         {
-            //var appSettings = sp.GetRequiredService<EnvironmentSettings>();
-
-            options.UseNpgsql("User ID=postgres;Password=admin;Host=localhost;Port=5432;Database=BankExchangeRates;Pooling=true;");
+            var appSettings = sp.GetRequiredService<ApplicationSettingsService<EnvironmentSettings>>();
+            appSettings.Value.Validate();
+            options.UseNpgsql(appSettings.Value.DbConnection);
         });
         services.AddScoped<BankExchangeRateDBContext>();
         return services;
