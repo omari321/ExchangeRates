@@ -20,9 +20,3 @@ var app = builder
 .Build();
 app.InitializeDatabase();
 await app.RunAsync();
-
-//todo repo
-//todo logging
-//todo entity comparisons interface
-//todo erovnuli banki
-//todo gadaitane servicebi

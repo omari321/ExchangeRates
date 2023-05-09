@@ -1,6 +1,5 @@
 using ExchangeRates.Application;
 using ExchangeRates.Infrastructure;
-using ExchangeRates.Shared;
 using ExchangeRates.Shared.Extensions;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
