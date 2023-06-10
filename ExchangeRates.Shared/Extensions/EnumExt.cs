@@ -8,7 +8,7 @@ public static class EnumExt
         {
             AvailableCurrencies.CHF => "CHF",
             AvailableCurrencies.EUR => "EUR",
-            AvailableCurrencies.GBP => "GDP",
+            AvailableCurrencies.GBP => "GBP",
             AvailableCurrencies.RUB => "RUR",
             AvailableCurrencies.USD => "USD",
             AvailableCurrencies.TRY => "TRY",
