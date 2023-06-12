@@ -15,7 +15,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "EnvironmentSettings:DbConnection": "User ID=postgres;Password=admin;Host=localhost;Port=5432;Database=BankExchangeRates;Pooling=true;"
+        "EnvironmentSettings:DbConnection": "User ID=myuser;Password=mypassword;Host=localhost;Port=5432;Database=BankExchangeRates;Pooling=true;"
       },
       "applicationUrl": "http://localhost:5212",
       "dotnetRunMessages": true
