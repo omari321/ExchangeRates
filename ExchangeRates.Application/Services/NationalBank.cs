@@ -1,6 +1,5 @@
 ﻿using ExchangeRates.Application.Interface;
 using ExchangeRates.Application.Models;
-using ExchangeRates.Shared;
 using ExchangeRates.Shared.Extensions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -82,7 +81,7 @@ public class NationalBank : INbgParser
 
     internal class Root
     {
-        public DateTime date { get; set; }
-        public List<Currency> currencies { get; set; }
+        public DateTime date { get; set; } = default!;
+        public List<Currency> currencies { get; set; } = default!;
     }
 }

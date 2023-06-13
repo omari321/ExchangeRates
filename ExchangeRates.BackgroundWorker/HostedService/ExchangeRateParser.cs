@@ -38,7 +38,7 @@ public class ExchangeRateParser : BackgroundService
     {
         using var scope = _serviceProvider.CreateScope();
         var nbgParser = scope.ServiceProvider.GetRequiredService<INbgParser>();
-        var bankParsers = scope.ServiceProvider.GetRequiredService<IEnumerable<IBankParser>>(); ;
+        var bankParsers = scope.ServiceProvider.GetRequiredService<IEnumerable<IBankParser>>();
         var repository = scope.ServiceProvider.GetRequiredService<IRepository<BankCurrenciesExchangeRatesEntity>>();
         var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
@@ -52,11 +52,11 @@ public class ExchangeRateParser : BackgroundService
             item.ExchangeRates.ForEach(x =>
             {
                 var officialData = nbgData.Currencies
-                    .FirstOrDefault(y => y!.Name == x.CurrencyName);
+                    .FirstOrDefault(y => y!.Name == x!.CurrencyName);
                 var key = (x!.CurrencyName, officialData!.Rate, officialData.Diff);
-                if (dictionary.ContainsKey(key))
+                if (dictionary.TryGetValue(key, out var value))
                 {
-                    dictionary[key].Add(new EntityExchangeRateInformation(
+                    value.Add(new EntityExchangeRateInformation(
                         item.Bank,
                         x.BuyRate,
                         x.SellRate
@@ -81,7 +81,7 @@ public class ExchangeRateParser : BackgroundService
                 new ExchangeRateEntity(dictionaryKey.Diff, dictionaryKey.OfficialRate, dictionaryKey.Name);
             dictionary[dictionaryKey].ForEach(x =>
             {
-                exchangeRate.ExchangeRates?.Add(x);
+                exchangeRate.ExchangeRates.Add(x);
             });
             persistenceData.CurrencyRatesInformation.Add(exchangeRate);
         }

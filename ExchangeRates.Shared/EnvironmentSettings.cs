@@ -3,7 +3,7 @@
 public class EnvironmentSettings
 {
     public const string SectionName = "EnvironmentSettings";
-    public string DbConnection { get; set; }
+    public string DbConnection { get; set; } = default!;
 
     public void Validate()
     {
