@@ -24,12 +24,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    
+
     app.UseCors(policy => policy
         .AllowAnyOrigin()
         .AllowAnyHeader()
         .AllowAnyMethod());
-    
+
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Exchange Rates Api API V1");
@@ -46,9 +46,10 @@ if (app.Environment.IsDevelopment())
     ;
 }
 
+app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllers();
 
