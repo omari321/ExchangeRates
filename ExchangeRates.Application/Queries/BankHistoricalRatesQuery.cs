@@ -1,6 +1,10 @@
-﻿using ExchangeRates.Shared;
+﻿using ExchangeRates.Domain.Entities;
+using ExchangeRates.Infrastructure.Repositories.Abstractions;
+using ExchangeRates.Shared;
+using ExchangeRates.Shared.Extensions;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExchangeRates.Application.Queries;
 
@@ -21,8 +25,31 @@ public class BankHistoricalRatesQueryValidator : AbstractValidator<BankHistorica
 
 public class BankHistoricalRatesQueryHandler : IRequestHandler<BankHistoricalRatesQuery, ApplicationResult>
 {
-    public Task<ApplicationResult> Handle(BankHistoricalRatesQuery request, CancellationToken cancellationToken)
+    private readonly IRepository<BankCurrenciesExchangeRatesEntity> _repository;
+
+    public BankHistoricalRatesQueryHandler(IRepository<BankCurrenciesExchangeRatesEntity> repository)
     {
-        throw new NotImplementedException();
+        _repository = repository;
+    }
+
+    public async Task<ApplicationResult> Handle(BankHistoricalRatesQuery request, CancellationToken cancellationToken)
+    {
+        var date = request.StartDate.ToUniversalTime().Date;
+        var data = await _repository
+            .Query(x => x.CreateDate.Date >= date)
+            .ToListAsync(cancellationToken: cancellationToken);
+
+        var currencyInfo = data
+                .Select(x => x.CurrencyRatesInformation.First(rate => rate.CurrencyName == request.Currencies.GetCurrencyNameFromEnum()));
+
+        var bankCurrencyInfoDto = currencyInfo.Select(x => x.ExchangeRates
+            .Select(rate => new BankCurrencyInformationDto(rate!.BankName, rate.BuyRate, rate.SellRate))
+            .OrderByDescending(x => x.SellRate)
+            .ToList());
+        return new ApplicationResult
+        {
+            Success = true,
+            Data = bankCurrencyInfoDto
+        }
     }
 }
