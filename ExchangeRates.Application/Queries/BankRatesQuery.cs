@@ -45,9 +45,9 @@ public class BankCurrencyInformationDto
 
 
 public record BankRatesDto(string CurrencyName, decimal OfficialRate, decimal Diff, List<BankCurrencyInformationDto>? BankCurrencyInformationDto);
-public record BankRatesQuery(AvailableCurrencies Currencies, DateTime? Date) : IRequest<BankRatesDto>;
+public record BankRatesQuery(AvailableCurrencies Currencies, DateTime? Date) : IRequest<ApplicationResult<BankRatesDto>>;
 
-public class BankRatesQueryHandler : IRequestHandler<BankRatesQuery, BankRatesDto>
+public class BankRatesQueryHandler : IRequestHandler<BankRatesQuery, ApplicationResult<BankRatesDto>>
 {
     private readonly IRepository<BankCurrenciesExchangeRatesEntity> _repository;
 
@@ -56,7 +56,7 @@ public class BankRatesQueryHandler : IRequestHandler<BankRatesQuery, BankRatesDt
         _repository = repository;
     }
 
-    public async Task<BankRatesDto> Handle(BankRatesQuery request, CancellationToken cancellationToken)
+    public async Task<ApplicationResult<BankRatesDto>> Handle(BankRatesQuery request, CancellationToken cancellationToken)
     {
         var date = request.Date?.ToUniversalTime().Date ?? DateTime.Now.ToUniversalTime().Date;
         var data = await _repository
@@ -71,6 +71,12 @@ public class BankRatesQueryHandler : IRequestHandler<BankRatesQuery, BankRatesDt
             .OrderByDescending(x => x.SellRate)
             .ToList();
 
-        return new BankRatesDto(currencyInfo.CurrencyName, currencyInfo.OfficialRate, currencyInfo.Diff, bankCurrencyInfoDto);
+        return new ApplicationResult<BankRatesDto>
+        {
+            Success = true,
+            Data = new BankRatesDto(currencyInfo.CurrencyName, currencyInfo.OfficialRate, currencyInfo.Diff,
+                bankCurrencyInfoDto)
+        };
+
     }
 }

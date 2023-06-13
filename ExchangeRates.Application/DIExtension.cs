@@ -1,6 +1,8 @@
-﻿using ExchangeRates.Application.Interface;
+﻿using ExchangeRates.Application.Behaviors;
+using ExchangeRates.Application.Interface;
 using ExchangeRates.Application.Services;
 using ExchangeRates.Application.Services.Banks;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -31,6 +33,7 @@ public static class DIExtension
         {
             config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         return services;
     }
 }
