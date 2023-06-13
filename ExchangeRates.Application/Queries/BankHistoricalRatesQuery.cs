@@ -50,6 +50,6 @@ public class BankHistoricalRatesQueryHandler : IRequestHandler<BankHistoricalRat
         {
             Success = true,
             Data = bankCurrencyInfoDto
-        }
+        };
     }
 }
