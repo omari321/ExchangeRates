@@ -40,7 +40,7 @@ public class FakeDataMultiplier : BackgroundService
 
 
                     var random = Random.Shared.Next();
-                    decimal multiplyValue = default!;
+                    decimal multiplyValue;
                     if (random > 0)
                     {
                         multiplyValue = 1 + i / 100;
