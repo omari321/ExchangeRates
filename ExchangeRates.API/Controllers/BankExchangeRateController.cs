@@ -16,4 +16,8 @@ public class BankExchangeRateController : Controller
 
     [HttpGet]
     public async Task<ActionResult<BankRatesDto>> GetBankRatesAsync(BankRatesQuery query) => await _mediator.Send(query);
+
+    [HttpGet("historical-data")]
+    public async Task<ActionResult<BankRatesDto>> GetBankHistoricalData(BankRatesQuery query) => await _mediator.Send(query);
+
 }

@@ -37,9 +37,9 @@ public class BankCurrencyInformationDto
             ["Liberty Bank"] = "https://libertybank.ge/m/i/logo-fb-en.png",
         };
 
-         map.TryGetValue(bankName, out var url);
-         
-         return url;
+        map.TryGetValue(bankName, out var url);
+
+        return url;
     }
 }
 
@@ -67,10 +67,10 @@ public class BankRatesQueryHandler : IRequestHandler<BankRatesQuery, BankRatesDt
             .First(rate => rate.CurrencyName == request.Currencies.GetCurrencyNameFromEnum());
 
         var bankCurrencyInfoDto = currencyInfo.ExchangeRates
-            .Select(rate => new BankCurrencyInformationDto(rate!.BankName,rate.BuyRate, rate.SellRate))
+            .Select(rate => new BankCurrencyInformationDto(rate!.BankName, rate.BuyRate, rate.SellRate))
             .OrderByDescending(x => x.SellRate)
             .ToList();
-        
+
         return new BankRatesDto(currencyInfo.CurrencyName, currencyInfo.OfficialRate, currencyInfo.Diff, bankCurrencyInfoDto);
     }
 }
