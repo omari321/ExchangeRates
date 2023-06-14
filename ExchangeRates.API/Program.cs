@@ -18,8 +18,6 @@ builder.Services.AddApplication();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
-//todo rate limiting
-//todo exception middleware
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
