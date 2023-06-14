@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ExchangeRates.Application.Queries;
 
 public record BankRatesDto(string CurrencyName, decimal OfficialRate, decimal Diff, List<BankCurrencyInformationDto>? BankCurrencyInformationDto);
-public record BankRatesQuery(AvailableCurrencies Currencies) : IRequest<ApplicationResult<BankRatesDto>>;
+public record BankRatesQuery(AvailableCurrencies Currencies, DateTime? Date) : IRequest<ApplicationResult<BankRatesDto>>;
 
 public class BankRatesQueryHandler : IRequestHandler<BankRatesQuery, ApplicationResult<BankRatesDto>>
 {
@@ -22,9 +22,9 @@ public class BankRatesQueryHandler : IRequestHandler<BankRatesQuery, Application
 
     public async Task<ApplicationResult<BankRatesDto>> Handle(BankRatesQuery request, CancellationToken cancellationToken)
     {
-        var date = DateTime.Now.ToUniversalTime().Date;
         var data = await _repository
-            .Query(x => x.CreateDate.Date == date)
+            .Query()
+            .OrderByDescending(x => x.CreateDate)
             .FirstAsync(cancellationToken: cancellationToken);
 
         var currencyInfo = data.CurrencyRatesInformation
