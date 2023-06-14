@@ -43,11 +43,11 @@ public class FakeDataMultiplier : BackgroundService
                     decimal multiplyValue;
                     if (random > 0)
                     {
-                        multiplyValue = 1 + i / 100;
+                        multiplyValue = 1 + i * Random.Shared.Next(50) / 100;
                     }
                     else
                     {
-                        multiplyValue = 1 - i / 100;
+                        multiplyValue = 1 - i * Random.Shared.Next(50) / 100;
                     }
 
                     var data = new ExchangeRateEntity(x.Diff * multiplyValue, x.OfficialRate * multiplyValue, x.CurrencyName);
