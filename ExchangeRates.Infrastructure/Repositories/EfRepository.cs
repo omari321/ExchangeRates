@@ -17,7 +17,8 @@ namespace ExchangeRates.Infrastructure.Repositories
 
         public IQueryable<T> Query(Expression<Func<T, bool>>? expression = null)
         {
-            return _bankExchangeRateDb.Set<T>().AsQueryable();
+            return expression is null ? _bankExchangeRateDb.Set<T>().AsQueryable() :
+                _bankExchangeRateDb.Set<T>().Where(expression).AsQueryable();
         }
 
         public virtual async Task Store(T document)

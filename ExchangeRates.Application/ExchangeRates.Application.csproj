@@ -28,7 +28,4 @@
 	  <ProjectReference Include="..\ExchangeRates.Infrastructure\ExchangeRates.Infrastructure.csproj" />
 	  <ProjectReference Include="..\ExchangeRates.Shared\ExchangeRates.Shared.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Queries\Dtos\" />
-	</ItemGroup>
 </Project>

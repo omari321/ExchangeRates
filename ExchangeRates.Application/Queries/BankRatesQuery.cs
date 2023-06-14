@@ -1,4 +1,5 @@
-﻿using ExchangeRates.Domain.Entities;
+﻿using ExchangeRates.Application.Queries.Dtos;
+using ExchangeRates.Domain.Entities;
 using ExchangeRates.Infrastructure.Repositories.Abstractions;
 using ExchangeRates.Shared;
 using ExchangeRates.Shared.Extensions;
@@ -6,21 +7,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExchangeRates.Application.Queries;
-
-public class BankCurrencyInformationDto
-{
-    public string BankName { get; }
-    public decimal BuyRate { get; }
-    public decimal SellRate { get; }
-
-    public BankCurrencyInformationDto(string bankName, decimal buyRate, decimal sellRate)
-    {
-        BankName = bankName;
-        BuyRate = buyRate;
-        SellRate = sellRate;
-    }
-}
-
 
 public record BankRatesDto(string CurrencyName, decimal OfficialRate, decimal Diff, List<BankCurrencyInformationDto>? BankCurrencyInformationDto);
 public record BankRatesQuery(AvailableCurrencies Currencies, DateTime? Date) : IRequest<ApplicationResult<BankRatesDto>>;
