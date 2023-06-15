@@ -12,7 +12,7 @@ public class ExchangeRateParser : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<ExchangeRateParser> _logger;
-    private const int IntervalsInHours = 1;//todo
+    private const int IntervalsInHours = 6;//todo
 
     public ExchangeRateParser(IServiceProvider serviceProvider, ILogger<ExchangeRateParser> logger)
     {
@@ -22,7 +22,7 @@ public class ExchangeRateParser : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("Processing batches in every {M} hours", 1);
+        _logger.LogInformation("Processing batches in every {M} hours", IntervalsInHours);
 
         using var periodicTimer = new PeriodicTimer(TimeSpan.FromHours(IntervalsInHours));
 
@@ -42,8 +42,7 @@ public class ExchangeRateParser : BackgroundService
         var repository = scope.ServiceProvider.GetRequiredService<IRepository<BankCurrenciesExchangeRatesEntity>>();
         var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
-        var bankData = await Task.WhenAll(
-            bankParsers.Select(async (x) => await x.GetExchangeRateAsync()));
+        var bankData = await Task.WhenAll(bankParsers.Select((x) => x.GetExchangeRateAsync()));
         var nbgData = await nbgParser.GetOfficialExchangeRateAsync();
         var persistenceData = new BankCurrenciesExchangeRatesEntity();
         var dictionary = new Dictionary<(string Name, decimal OfficialRate, decimal Diff), List<EntityExchangeRateInformation>>();

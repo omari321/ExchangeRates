@@ -39,21 +39,13 @@ public class FakeDataMultiplier : BackgroundService
                 {
 
 
-                    var random = Random.Shared.Next();
-                    decimal multiplyValue;
-                    if (random > 0)
-                    {
-                        multiplyValue = 1 + i * Random.Shared.Next(50) / 100;
-                    }
-                    else
-                    {
-                        multiplyValue = 1 - i * Random.Shared.Next(50) / 100;
-                    }
+                    var y = (decimal)(Random.Shared.NextDouble() * 100);
+                    var maxRand = x.OfficialRate + (y / 100 * x.OfficialRate);
 
-                    var data = new ExchangeRateEntity(x.Diff * multiplyValue, x.OfficialRate * multiplyValue, x.CurrencyName);
+                    var data = new ExchangeRateEntity(x.Diff * maxRand, maxRand, x.CurrencyName);
                     x.ExchangeRates.ForEach(e =>
                     {
-                        data.ExchangeRates.Add(new EntityExchangeRateInformation(e!.BankName, e.BuyRate * multiplyValue, e.SellRate * multiplyValue));
+                        data.ExchangeRates.Add(new EntityExchangeRateInformation(e!.BankName, maxRand + (Random.Shared.Next(-10, 10) * maxRand / 100), maxRand + (Random.Shared.Next(-10, 10) * maxRand / 100)));
                     });
                     dataList.Add(data);
                 });
@@ -69,7 +61,7 @@ public class FakeDataMultiplier : BackgroundService
 
 
             await unitOfWork.SaveAsync();
-
+            Console.WriteLine("saved successfully");
         }
     }
 }
